@@ -1,4 +1,0 @@
-#MAC,PARAM1,PARAM2,PARAM3,PARAM4,PARAM5,PARAM6,,PARAM8,PARAM9
-#MAC,hostname,wired-ip,wireless-ip,x,channel,cell,return-routes,forward-routes,PARAM9
-#00:18:84:29:b0:0c,zoo07,192.168.4.1 192.168.3.1,x,1,02:02:02:02:aa:aa
-#00:18:84:29:be:44,zoo06,192.168.4.2,192.168.3.2,x,1,02:02:02:02:aa:aa

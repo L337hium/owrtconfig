@@ -1,21 +1,19 @@
-# owrtconfig.sh and owrtflash-ng.sh
-
-## owrtconfig
-
-`owrtconfig` should be re-written; however `owrtflash-ng.sh` is new, as the
-name says.
+# owrtflash-ng
 
 ## owrtflash-ng.sh
 
 ### What does it do?
 
 `owrtflash-ng.sh` can be used to flash **OpenWrt** en mass on multiple
-devices nearly *at once*, which are connected to a client at the same switch.
+devices nearly *at once*, which are connected to a client _on the same_ switch.
 
-The minimum config about a 'node', which have to be stated is a `model`
-and a ethernet `macaddr`, if it come fresh out of the box. Dissent options
-can specified as well, like: `router_ip`, `firmware`, `user` and `password`
-and so on to have various ways of flashing a device.
+The minimum config about a 'node' needs to reflect at least a `model` (which
+kind of hardware it is) and an ethernet `macaddr`.
+Dissent options can specified as well, like: `router_ip`, `firmware`, `user` and 
+`password` and so on to have various ways of flashing a device. These settings
+however define the **state** of adevice. Either when coming right out a box,
+or specific configuration of the device (like default mangement interface 
+addresses).
 
 ### Features
 
@@ -24,22 +22,35 @@ and so on to have various ways of flashing a device.
 * network is configured with `iproute2` (welcome to the future!!)
 * Disable `network-manger` (if you are using it on your ethernet card) with
  a commandline argument. You do not want to have `network-manager` running
- on `eth0`, while using that tool!
+ on `eth0`, while using that tool! #TODO:HOWTO
 * modular function design which is hopefully reuseable by other tools, or
 are at least easily enhanceable.
 * node config is written in shell script, so they are just variables to set.
+You need to write the model definition and the defaults of the "factory" state,
+and the "failsafe" mode. "OpenWRT" has defaults, too. If a more specific name
+of a model is the same as the defaults for a whole family, then just use 
+symlinks, please. Due the nature of shell-syntax, you can use includes.
 
 [1] Cause of a bug, I had to cheat a little bit, and just set the password
 via `telnet` to enable `ssh`, and then just flash via `ssh`.
 
 [2] By *custom* I mean of course a OpenWrt derivat.
 
-### Example usage
+### Example use-cases
 
 ```
 # Unpack your device,
 # Setup your node config file... and
-# and plugin for the first time, or go ahead to the next command...
+- `./defaults/models`
+- `./defaults/factory`
+- `./defaults/failsafe`, if the device does support tftp-boot
+# place i.e. a firmware-file in `./firmware-images/custom`
+# `./firemware-images/openwrt` contains either stable release or
+# something like this....
+
+# power on te router for the first time, or go ahead to the next command...
+
+
 time ./owrtflash-ng.sh --nodes 0142 --from factory --to openwrt --sudo
 
 # Now flash your own firmware over the virgin OpenWrt
